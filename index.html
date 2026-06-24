@@ -1,0 +1,1705 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tintero</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --purple-50: #EEEDFE;
+      --purple-200: #AFA9EC;
+      --purple-400: #7F77DD;
+      --purple-600: #534AB7;
+      --purple-800: #3C3489;
+      --purple-900: #26215C;
+      --amber-50: #FAEEDA;
+      --amber-200: #FAC775;
+      --amber-600: #BA7517;
+      --amber-900: #633806;
+      --teal-50: #E1F5EE;
+      --teal-400: #1D9E75;
+      --teal-600: #5DCAA5;
+      --teal-900: #085041;
+      --green-50: #EAF3DE;
+      --green-600: #639922;
+      --green-800: #3B6D11;
+      --coral-50: #FAECE7;
+      --coral-600: #F09595;
+      --coral-900: #712B13;
+
+      --bg: #ffffff;
+      --bg-secondary: #f8f7f4;
+      --bg-tertiary: #f2f0eb;
+      --text: #1a1a18;
+      --text-secondary: #6b6b65;
+      --text-tertiary: #9e9e96;
+      --border: rgba(26,26,24,0.12);
+      --border-md: rgba(26,26,24,0.22);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Lora', Georgia, serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ─── NAVIGATION BETWEEN SCREENS ─── */
+    .screen { display: none; }
+    .screen.active { display: block; }
+
+    /* ─── SHARED NAV ─── */
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.1rem 2.5rem;
+      border-bottom: 0.5px solid var(--border);
+      background: var(--bg);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 400;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .logo-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--purple-800);
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+    }
+
+    .nav-link {
+      font-size: 13px;
+      font-style: italic;
+      color: var(--text-secondary);
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: 'Lora', serif;
+    }
+
+    .nav-link:hover { color: var(--text); }
+
+    .nav-btn {
+      font-size: 13px;
+      font-family: 'Lora', serif;
+      color: white;
+      background: var(--purple-800);
+      border: none;
+      padding: 7px 18px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .nav-btn:hover { background: var(--purple-900); }
+
+    .nav-btn-ghost {
+      font-size: 13px;
+      font-family: 'Lora', serif;
+      font-style: italic;
+      color: var(--purple-600);
+      background: var(--purple-50);
+      border: 0.5px solid var(--purple-200);
+      padding: 7px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+    }
+
+    .avatar-sm {
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      background: var(--purple-50);
+      border: 0.5px solid var(--purple-200);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--purple-800);
+      font-family: 'Playfair Display', serif;
+      cursor: pointer;
+    }
+
+    /* ══════════════════════════════════════
+       LANDING PAGE
+    ══════════════════════════════════════ */
+
+    /* Hero */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 88vh;
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .hero-left {
+      padding: 5rem 3rem 4rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border-right: 0.5px solid var(--border);
+    }
+
+    .hero-eyebrow {
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: var(--purple-600);
+      font-style: italic;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 52px;
+      font-weight: 400;
+      line-height: 1.1;
+      letter-spacing: -1px;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-title em { font-style: italic; color: var(--purple-600); }
+
+    .hero-sub {
+      font-size: 16px;
+      line-height: 1.8;
+      color: var(--text-secondary);
+      max-width: 420px;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-actions { display: flex; gap: 12px; align-items: center; }
+
+    .btn-primary {
+      font-family: 'Lora', serif;
+      font-size: 14px;
+      color: white;
+      background: var(--purple-800);
+      border: none;
+      padding: 11px 24px;
+      border-radius: 24px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-primary:hover { background: var(--purple-900); }
+
+    .btn-ghost {
+      font-family: 'Lora', serif;
+      font-size: 14px;
+      font-style: italic;
+      color: var(--text-secondary);
+      background: none;
+      border: 0.5px solid var(--border-md);
+      padding: 11px 20px;
+      border-radius: 24px;
+      cursor: pointer;
+    }
+
+    .btn-ghost:hover { border-color: var(--purple-200); color: var(--purple-600); }
+
+    .hero-note {
+      margin-top: 1.5rem;
+      font-size: 12px;
+      color: var(--text-tertiary);
+      font-style: italic;
+    }
+
+    /* Hero right — profile preview */
+    .hero-right {
+      background: var(--bg-tertiary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-grid-bg {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 0.5px, transparent 0.5px),
+        linear-gradient(90deg, var(--border) 0.5px, transparent 0.5px);
+      background-size: 40px 40px;
+    }
+
+    .profile-card-preview {
+      background: var(--bg);
+      border: 0.5px solid var(--border);
+      border-radius: 8px;
+      width: 100%;
+      max-width: 340px;
+      overflow: hidden;
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 4px 32px rgba(0,0,0,0.08);
+    }
+
+    .pcp-head {
+      padding: 1.25rem;
+      border-bottom: 0.5px solid var(--border);
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .pcp-avatar {
+      width: 48px; height: 48px;
+      border-radius: 3px;
+      background: var(--purple-50);
+      border: 0.5px solid var(--purple-200);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 16px;
+      color: var(--purple-800);
+      flex-shrink: 0;
+    }
+
+    .pcp-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 15px;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+
+    .pcp-tag { font-size: 12px; color: var(--purple-600); font-style: italic; }
+
+    .pcp-badge {
+      margin-left: auto;
+      font-size: 10px;
+      font-style: italic;
+      background: var(--green-50);
+      border: 0.5px solid var(--green-600);
+      color: var(--green-800);
+      padding: 3px 8px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .pcp-bio {
+      padding: 1rem 1.25rem;
+      font-size: 12px;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .pcp-obras { padding: 0.75rem 1.25rem; }
+
+    .pcp-obras-label {
+      font-size: 10px;
+      letter-spacing: 1px;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 10px;
+    }
+
+    .pcp-obra-item {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      padding: 7px 0;
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .pcp-obra-item:last-child { border-bottom: none; }
+
+    .pcp-obra-thumb {
+      width: 28px; height: 36px;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    .pcp-obra-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 12px;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+
+    .pcp-obra-meta { font-size: 10px; color: var(--text-secondary); font-style: italic; }
+
+    /* Features */
+    .features {
+      padding: 5rem 3rem;
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .section-eyebrow {
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: var(--purple-600);
+      font-style: italic;
+      margin-bottom: 3rem;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .feature-item {
+      padding: 2rem 2.5rem 2rem 0;
+      border-right: 0.5px solid var(--border);
+    }
+
+    .feature-item:nth-child(2) { padding-left: 2.5rem; }
+    .feature-item:last-child { border-right: none; padding-left: 2.5rem; padding-right: 0; }
+
+    .feature-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px;
+      font-weight: 400;
+      color: var(--purple-50);
+      line-height: 1;
+      padding-bottom: 1rem;
+      margin-bottom: 1rem;
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .feature-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 17px;
+      font-weight: 400;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .feature-desc { font-size: 13px; line-height: 1.75; color: var(--text-secondary); }
+
+    /* Writers grid */
+    .writers-section {
+      padding: 5rem 3rem;
+      border-bottom: 0.5px solid var(--border);
+      background: var(--bg-secondary);
+    }
+
+    .writers-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 2.5rem;
+    }
+
+    .writers-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 400;
+      font-style: italic;
+    }
+
+    .link-subtle {
+      font-size: 13px;
+      font-style: italic;
+      color: var(--purple-600);
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: 'Lora', serif;
+    }
+
+    .writers-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+    }
+
+    .writer-card {
+      background: var(--bg);
+      border: 0.5px solid var(--border);
+      border-radius: 6px;
+      padding: 1.25rem;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+
+    .writer-card:hover { border-color: var(--purple-400); }
+
+    .wc-avatar {
+      width: 40px; height: 40px;
+      border-radius: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .wc-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--text);
+      margin-bottom: 3px;
+    }
+
+    .wc-genre { font-size: 12px; color: var(--text-secondary); font-style: italic; margin-bottom: 10px; }
+
+    .wc-count {
+      font-size: 11px;
+      color: var(--text-secondary);
+      padding-top: 10px;
+      border-top: 0.5px solid var(--border);
+    }
+
+    /* CTA section */
+    .cta-section {
+      padding: 6rem 3rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .cta-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 44px;
+      font-weight: 400;
+      letter-spacing: -0.5px;
+      line-height: 1.15;
+      max-width: 500px;
+      margin-bottom: 1rem;
+    }
+
+    .cta-title em { font-style: italic; color: var(--purple-600); }
+
+    .cta-sub { font-size: 15px; color: var(--text-secondary); margin-bottom: 2.5rem; font-style: italic; }
+
+    .cta-input-row {
+      display: flex;
+      gap: 8px;
+      width: 100%;
+      max-width: 380px;
+    }
+
+    .cta-input {
+      flex: 1;
+      font-family: 'Lora', serif;
+      font-size: 14px;
+      font-style: italic;
+      color: var(--text);
+      background: var(--bg);
+      border: 0.5px solid var(--border-md);
+      border-radius: 24px;
+      padding: 10px 18px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .cta-input:focus { border-color: var(--purple-600); }
+
+    .cta-fine { margin-top: 1rem; font-size: 12px; color: var(--text-tertiary); font-style: italic; }
+
+    /* Footer */
+    footer {
+      padding: 1.5rem 2.5rem;
+      border-top: 0.5px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-link { font-size: 12px; font-style: italic; color: var(--text-secondary); cursor: pointer; }
+    .footer-link:hover { color: var(--text); }
+
+    /* ══════════════════════════════════════
+       PERFIL PÚBLICO
+    ══════════════════════════════════════ */
+
+    .profile-hero {
+      background: var(--bg);
+      border-bottom: 0.5px solid var(--border);
+      padding: 3rem 3rem 2.5rem;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 2rem;
+      align-items: start;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .avatar-wrap { position: relative; }
+
+    .avatar-lg {
+      width: 108px; height: 108px;
+      border-radius: 3px;
+      background: var(--purple-50);
+      border: 0.5px solid var(--purple-200);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      color: var(--purple-800);
+    }
+
+    .avail-badge {
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--green-50);
+      border: 0.5px solid var(--green-600);
+      color: var(--green-800);
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      white-space: nowrap;
+      font-style: italic;
+    }
+
+    .profile-info { padding-top: 4px; }
+
+    .writer-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      font-weight: 400;
+      letter-spacing: -0.5px;
+      line-height: 1.15;
+      margin-bottom: 4px;
+    }
+
+    .writer-tagline {
+      font-size: 14px;
+      color: var(--purple-600);
+      font-style: italic;
+      margin-bottom: 14px;
+    }
+
+    .writer-bio {
+      font-size: 15px;
+      line-height: 1.75;
+      color: var(--text-secondary);
+      max-width: 560px;
+      margin-bottom: 1.5rem;
+    }
+
+    .contact-row { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .contact-item:hover { color: var(--purple-600); }
+
+    .contact-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--purple-600);
+      flex-shrink: 0;
+    }
+
+    /* Profile main content */
+    .profile-main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2.5rem 3rem;
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 2.5rem;
+    }
+
+    .stat-card {
+      background: var(--bg-secondary);
+      border-radius: 6px;
+      padding: 14px 16px;
+      text-align: center;
+    }
+
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      font-weight: 400;
+      color: var(--text);
+      display: block;
+      letter-spacing: -0.5px;
+    }
+
+    .stat-label { font-size: 12px; color: var(--text-secondary); font-style: italic; }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      border-bottom: 0.5px solid var(--border);
+      margin-bottom: 2rem;
+    }
+
+    .tab {
+      font-size: 13px;
+      font-family: 'Lora', serif;
+      font-style: italic;
+      color: var(--text-secondary);
+      padding: 8px 20px 10px;
+      cursor: pointer;
+      border: none;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -0.5px;
+      background: none;
+      transition: color 0.2s;
+    }
+
+    .tab.active { color: var(--purple-800); border-bottom-color: var(--purple-800); font-style: normal; }
+    .tab:hover:not(.active) { color: var(--text); }
+
+    /* Works grid */
+    .works-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .work-card {
+      background: var(--bg);
+      border: 0.5px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+
+    .work-card:hover { border-color: var(--purple-400); }
+
+    .work-img {
+      width: 100%;
+      height: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 0.5px solid var(--border);
+      position: relative;
+    }
+
+    .work-type-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-size: 10px;
+      font-style: italic;
+      padding: 3px 8px;
+      border-radius: 2px;
+    }
+
+    .b-novela { background: var(--purple-50); color: var(--purple-800); border: 0.5px solid var(--purple-200); }
+    .b-ensayo { background: var(--amber-50); color: var(--amber-900); border: 0.5px solid var(--amber-200); }
+    .b-cuento { background: var(--teal-50); color: var(--teal-900); border: 0.5px solid var(--teal-600); }
+
+    .work-body { padding: 14px 16px 16px; }
+
+    .work-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 15px;
+      font-weight: 400;
+      color: var(--text);
+      margin-bottom: 6px;
+      line-height: 1.3;
+    }
+
+    .work-year { font-size: 12px; color: var(--purple-600); margin-bottom: 8px; font-style: italic; }
+
+    .work-desc {
+      font-size: 13px;
+      line-height: 1.65;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .work-link {
+      font-size: 12px;
+      color: var(--purple-600);
+      text-decoration: none;
+      font-style: italic;
+    }
+
+    .work-link:hover { color: var(--purple-900); }
+
+    /* ══════════════════════════════════════
+       DASHBOARD
+    ══════════════════════════════════════ */
+
+    .dashboard-layout {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      min-height: calc(100vh - 52px);
+    }
+
+    /* Sidebar */
+    .sidebar {
+      background: var(--bg);
+      border-right: 0.5px solid var(--border);
+      padding: 1.5rem 0;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .sidebar-section-label {
+      padding: 0 1rem 0.5rem;
+      font-size: 10px;
+      letter-spacing: 1px;
+      color: var(--text-tertiary);
+      font-style: italic;
+      margin-top: 0.5rem;
+    }
+
+    .sidebar-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 1.25rem;
+      font-size: 13px;
+      font-family: 'Lora', serif;
+      color: var(--text-secondary);
+      cursor: pointer;
+      border-left: 2px solid transparent;
+      transition: all 0.15s;
+      font-style: italic;
+      background: none;
+      border-top: none;
+      border-right: none;
+      border-bottom: none;
+      width: 100%;
+      text-align: left;
+    }
+
+    .sidebar-item:hover { color: var(--text); background: var(--bg-secondary); }
+
+    .sidebar-item.active {
+      color: var(--purple-800);
+      border-left-color: var(--purple-800);
+      background: var(--purple-50);
+      font-style: normal;
+    }
+
+    .dash-main {
+      padding: 2rem 2.5rem;
+      background: var(--bg-tertiary);
+      overflow-y: auto;
+    }
+
+    .dash-page-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 400;
+      font-style: italic;
+      margin-bottom: 4px;
+    }
+
+    .dash-page-sub { font-size: 13px; color: var(--text-secondary); margin-bottom: 2rem; }
+
+    /* Section cards */
+    .dash-section {
+      background: var(--bg);
+      border: 0.5px solid var(--border);
+      border-radius: 6px;
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+    }
+
+    .dash-section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.25rem;
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .dash-section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 15px;
+      font-weight: 400;
+      font-style: italic;
+    }
+
+    .edit-btn {
+      font-size: 12px;
+      font-family: 'Lora', serif;
+      font-style: italic;
+      color: var(--text-secondary);
+      border: 0.5px solid var(--border-md);
+      background: none;
+      padding: 4px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .edit-btn:hover { border-color: var(--purple-200); color: var(--purple-600); background: var(--purple-50); }
+
+    .dash-section-body { padding: 1.25rem; }
+
+    /* Field grid */
+    .field-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .field-group { display: flex; flex-direction: column; gap: 5px; }
+    .field-group.full { grid-column: 1 / -1; }
+
+    .field-label { font-size: 11px; color: var(--text-secondary); font-style: italic; }
+    .field-value { font-size: 14px; color: var(--text); line-height: 1.6; }
+
+    /* Obras list */
+    .obras-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.25rem;
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .add-btn {
+      font-size: 12px;
+      font-family: 'Lora', serif;
+      font-style: italic;
+      color: white;
+      background: var(--purple-600);
+      border: none;
+      padding: 6px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .add-btn:hover { background: var(--purple-800); }
+
+    .obra-row {
+      display: grid;
+      grid-template-columns: 44px 1fr auto;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 1.25rem;
+      border-bottom: 0.5px solid var(--border);
+      transition: background 0.15s;
+    }
+
+    .obra-row:last-child { border-bottom: none; }
+    .obra-row:hover { background: var(--bg-secondary); }
+
+    .obra-thumb {
+      width: 44px; height: 56px;
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 0.5px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .obra-title-dash {
+      font-family: 'Playfair Display', serif;
+      font-size: 14px;
+      color: var(--text);
+      margin-bottom: 3px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .obra-meta-dash {
+      font-size: 12px;
+      color: var(--text-secondary);
+      font-style: italic;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .type-pill {
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-style: normal;
+    }
+
+    .p-novela { background: var(--purple-50); color: var(--purple-800); border: 0.5px solid var(--purple-200); }
+    .p-ensayo { background: var(--amber-50); color: var(--amber-900); border: 0.5px solid var(--amber-200); }
+    .p-cuento { background: var(--teal-50); color: var(--teal-900); border: 0.5px solid var(--teal-600); }
+
+    .obra-actions { display: flex; gap: 6px; }
+
+    .icon-btn {
+      width: 28px; height: 28px;
+      border-radius: 4px;
+      border: 0.5px solid var(--border);
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--text-secondary);
+      font-size: 13px;
+      transition: all 0.15s;
+    }
+
+    .icon-btn:hover { border-color: var(--purple-200); color: var(--purple-600); background: var(--purple-50); }
+    .icon-btn.del:hover { border-color: #F09595; color: #A32D2D; background: #FCEBEB; }
+
+    /* Toggles */
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.25rem;
+    }
+
+    .toggle-label { font-size: 14px; color: var(--text); margin-bottom: 2px; }
+    .toggle-sub { font-size: 12px; color: var(--text-secondary); font-style: italic; }
+
+    .toggle-switch {
+      width: 38px; height: 22px;
+      border-radius: 20px;
+      border: none;
+      cursor: pointer;
+      position: relative;
+      transition: background 0.2s;
+      flex-shrink: 0;
+    }
+
+    .toggle-switch.on { background: var(--purple-600); }
+    .toggle-switch.off { background: var(--border-md); }
+
+    .toggle-knob {
+      position: absolute;
+      top: 3px;
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      background: white;
+      transition: left 0.2s;
+    }
+
+    .toggle-switch.on .toggle-knob { left: 19px; }
+    .toggle-switch.off .toggle-knob { left: 3px; }
+
+    .divider { height: 0.5px; background: var(--border); }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+    }
+
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      background: var(--bg);
+      border: 0.5px solid var(--border);
+      border-radius: 8px;
+      width: 480px;
+      max-width: 95vw;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.25rem;
+      border-bottom: 0.5px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: var(--bg);
+    }
+
+    .modal-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 16px;
+      font-weight: 400;
+      font-style: italic;
+    }
+
+    .close-btn {
+      width: 28px; height: 28px;
+      border-radius: 4px;
+      border: 0.5px solid var(--border);
+      background: none;
+      cursor: pointer;
+      color: var(--text-secondary);
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-body {
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .form-group { display: flex; flex-direction: column; gap: 5px; }
+    .form-label { font-size: 12px; color: var(--text-secondary); font-style: italic; }
+
+    .form-input, .form-select, .form-textarea {
+      font-family: 'Lora', serif;
+      font-size: 14px;
+      color: var(--text);
+      background: var(--bg);
+      border: 0.5px solid var(--border-md);
+      border-radius: 4px;
+      padding: 8px 10px;
+      outline: none;
+      transition: border-color 0.15s;
+      width: 100%;
+    }
+
+    .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--purple-600); }
+
+    .form-textarea { resize: vertical; min-height: 72px; line-height: 1.6; font-style: italic; }
+    .form-select { font-style: italic; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+    .upload-area {
+      border: 0.5px dashed var(--border-md);
+      border-radius: 4px;
+      padding: 1.25rem;
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 13px;
+      font-style: italic;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .upload-area:hover { border-color: var(--purple-400); background: var(--purple-50); color: var(--purple-600); }
+
+    .modal-footer {
+      padding: 1rem 1.25rem;
+      border-top: 0.5px solid var(--border);
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      position: sticky;
+      bottom: 0;
+      background: var(--bg);
+    }
+
+    .btn-secondary {
+      font-size: 13px;
+      font-family: 'Lora', serif;
+      font-style: italic;
+      padding: 7px 16px;
+      border-radius: 20px;
+      border: 0.5px solid var(--border-md);
+      background: none;
+      color: var(--text-secondary);
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     SCREEN: LANDING
+══════════════════════════════════════ -->
+<div id="screen-landing" class="screen active">
+
+  <nav class="nav">
+    <a class="logo" onclick="goTo('landing')">
+      <span class="logo-dot"></span>
+      tintero
+    </a>
+    <div class="nav-right">
+      <button class="nav-link" onclick="goTo('perfil')">explorar</button>
+      <button class="nav-btn" onclick="goTo('dashboard')">crear mi perfil</button>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div class="hero-left">
+      <p class="hero-eyebrow">portfolio para escritores</p>
+      <h1 class="hero-title">Tu obra merece<br>un <em>lugar propio.</em></h1>
+      <p class="hero-sub">Tintero es el portfolio que los escritores siempre necesitaron. Mostrá tu trabajo, contá quién sos, y que te encuentren.</p>
+      <div class="hero-actions">
+        <button class="btn-primary" onclick="goTo('dashboard')">crear mi perfil gratis</button>
+        <button class="btn-ghost" onclick="goTo('perfil')">explorar escritores →</button>
+      </div>
+      <p class="hero-note">Sin costo. Sin algoritmos. Solo tu escritura.</p>
+    </div>
+
+    <div class="hero-right">
+      <div class="hero-grid-bg"></div>
+      <div class="profile-card-preview">
+        <div class="pcp-head">
+          <div class="pcp-avatar">VF</div>
+          <div>
+            <div class="pcp-name">Valentina Ferrante</div>
+            <div class="pcp-tag">Narradora · Buenos Aires</div>
+          </div>
+          <span class="pcp-badge">acepta encargos</span>
+        </div>
+        <div class="pcp-bio">Escritora de ficción y ensayo. Interesada en los bordes del lenguaje y la memoria colectiva.</div>
+        <div class="pcp-obras">
+          <div class="pcp-obras-label">publicaciones</div>
+          <div class="pcp-obra-item">
+            <div class="pcp-obra-thumb" style="background:var(--purple-50);border:0.5px solid var(--purple-200);border-radius:2px;"></div>
+            <div><div class="pcp-obra-name">Las horas que no recordamos</div><div class="pcp-obra-meta">novela · 2023</div></div>
+          </div>
+          <div class="pcp-obra-item">
+            <div class="pcp-obra-thumb" style="background:var(--amber-50);border:0.5px solid var(--amber-200);border-radius:2px;"></div>
+            <div><div class="pcp-obra-name">El idioma de las ausencias</div><div class="pcp-obra-meta">ensayo · 2021</div></div>
+          </div>
+          <div class="pcp-obra-item">
+            <div class="pcp-obra-thumb" style="background:var(--teal-50);border:0.5px solid var(--teal-600);border-radius:2px;"></div>
+            <div><div class="pcp-obra-name">Tres veces la misma lluvia</div><div class="pcp-obra-meta">cuento · 2020</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="features">
+    <p class="section-eyebrow">por qué tintero</p>
+    <div class="features-grid">
+      <div class="feature-item">
+        <div class="feature-num">01</div>
+        <h3 class="feature-title">Un perfil que habla de vos</h3>
+        <p class="feature-desc">Nombre, bio, contacto y obras en un solo lugar. Sin ruido, sin distracciones. El foco está en tu escritura.</p>
+      </div>
+      <div class="feature-item">
+        <div class="feature-num">02</div>
+        <h3 class="feature-title">Todas tus obras reunidas</h3>
+        <p class="feature-desc">Libros, ensayos, cuentos, artículos. Cada publicación con imagen, año, descripción y link. Un archivo vivo de tu trabajo.</p>
+      </div>
+      <div class="feature-item">
+        <div class="feature-num">03</div>
+        <h3 class="feature-title">Que te encuentren</h3>
+        <p class="feature-desc">Editores, lectores y colaboradores buscan escritores en Tintero. Activá tu disponibilidad y abrí la puerta.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="writers-section">
+    <div class="writers-header">
+      <h2 class="writers-title">Escritores en Tintero</h2>
+      <button class="link-subtle" onclick="goTo('perfil')">ver todos →</button>
+    </div>
+    <div class="writers-grid">
+      <div class="writer-card" onclick="goTo('perfil')">
+        <div class="wc-avatar" style="background:var(--purple-50);color:var(--purple-800);">VF</div>
+        <div class="wc-name">Valentina Ferrante</div>
+        <div class="wc-genre">narrativa · ensayo</div>
+        <div class="wc-count">6 publicaciones</div>
+      </div>
+      <div class="writer-card" onclick="goTo('perfil')">
+        <div class="wc-avatar" style="background:var(--teal-50);color:var(--teal-900);">MR</div>
+        <div class="wc-name">Martín Ríos</div>
+        <div class="wc-genre">poesía · crónica</div>
+        <div class="wc-count">4 publicaciones</div>
+      </div>
+      <div class="writer-card" onclick="goTo('perfil')">
+        <div class="wc-avatar" style="background:var(--amber-50);color:var(--amber-900);">LC</div>
+        <div class="wc-name">Lucía Cavallo</div>
+        <div class="wc-genre">novela · cuento</div>
+        <div class="wc-count">9 publicaciones</div>
+      </div>
+      <div class="writer-card" onclick="goTo('perfil')">
+        <div class="wc-avatar" style="background:var(--coral-50);color:var(--coral-900);">JB</div>
+        <div class="wc-name">Jorge Bianchi</div>
+        <div class="wc-genre">ensayo · crítica</div>
+        <div class="wc-count">11 publicaciones</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-section">
+    <p class="section-eyebrow">empezá hoy</p>
+    <h2 class="cta-title">Tu tintero está<br><em>esperando.</em></h2>
+    <p class="cta-sub">Creá tu perfil en minutos. Es gratis.</p>
+    <div class="cta-input-row">
+      <input class="cta-input" type="email" placeholder="tu correo electrónico">
+      <button class="btn-primary" onclick="goTo('dashboard')">comenzar</button>
+    </div>
+    <p class="cta-fine">Sin tarjeta de crédito. Sin compromisos.</p>
+  </div>
+
+  <footer>
+    <a class="logo" style="font-size:15px;color:var(--text-secondary);" onclick="goTo('landing')">
+      <span class="logo-dot"></span>
+      tintero
+    </a>
+    <div class="footer-links">
+      <span class="footer-link">sobre el proyecto</span>
+      <span class="footer-link">contacto</span>
+      <span class="footer-link">privacidad</span>
+    </div>
+  </footer>
+
+</div>
+
+
+<!-- ══════════════════════════════════════
+     SCREEN: PERFIL PÚBLICO
+══════════════════════════════════════ -->
+<div id="screen-perfil" class="screen">
+
+  <nav class="nav">
+    <a class="logo" onclick="goTo('landing')">
+      <span class="logo-dot"></span>
+      tintero
+    </a>
+    <div class="nav-right">
+      <button class="nav-link" onclick="goTo('landing')">← volver</button>
+      <button class="nav-btn" onclick="goTo('dashboard')">mi dashboard</button>
+    </div>
+  </nav>
+
+  <div class="profile-hero">
+    <div class="avatar-wrap">
+      <div class="avatar-lg">VF</div>
+      <span class="avail-badge">acepta encargos</span>
+    </div>
+    <div class="profile-info">
+      <h1 class="writer-name">Valentina Ferrante</h1>
+      <p class="writer-tagline">Narradora · Buenos Aires, Argentina</p>
+      <p class="writer-bio">Escritora de ficción y ensayo. Interesada en los bordes del lenguaje, la memoria colectiva y las formas en que las historias construyen identidad. Colaboradora habitual en revistas literarias de Argentina y España.</p>
+      <div class="contact-row">
+        <a class="contact-item" href="#">
+          <span class="contact-dot"></span>
+          valentina@correo.com
+        </a>
+        <a class="contact-item" href="#">
+          <span class="contact-dot"></span>
+          @vferrante
+        </a>
+        <a class="contact-item" href="#">
+          <span class="contact-dot"></span>
+          valentina.com.ar
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="profile-main">
+    <div class="stats-row">
+      <div class="stat-card">
+        <span class="stat-num">12</span>
+        <span class="stat-label">publicaciones</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num">3</span>
+        <span class="stat-label">libros</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num">2019–</span>
+        <span class="stat-label">trayectoria</span>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active" onclick="filterObras('todos', this)">todos</button>
+      <button class="tab" onclick="filterObras('novela', this)">novelas</button>
+      <button class="tab" onclick="filterObras('ensayo', this)">ensayos</button>
+      <button class="tab" onclick="filterObras('cuento', this)">cuentos</button>
+    </div>
+
+    <div class="works-grid" id="works-grid">
+      <div class="work-card" data-type="novela">
+        <div class="work-img" style="background:var(--purple-50);">
+          <span class="work-type-badge b-novela">novela</span>
+          <svg width="40" height="52" viewBox="0 0 40 52" fill="none"><rect x="4" y="2" width="28" height="44" rx="2" fill="#534AB7" opacity="0.5"/><rect x="8" y="10" width="18" height="2" rx="1" fill="white" opacity="0.6"/><rect x="8" y="16" width="14" height="2" rx="1" fill="white" opacity="0.4"/><rect x="8" y="22" width="16" height="2" rx="1" fill="white" opacity="0.4"/></svg>
+        </div>
+        <div class="work-body">
+          <h3 class="work-title">Las horas que no recordamos</h3>
+          <p class="work-year">2023</p>
+          <p class="work-desc">Una novela sobre la pérdida de la memoria familiar y los silencios que heredamos. Finalista del Premio Clarín de Novela.</p>
+          <a class="work-link" href="#">leer más →</a>
+        </div>
+      </div>
+
+      <div class="work-card" data-type="ensayo">
+        <div class="work-img" style="background:var(--amber-50);">
+          <span class="work-type-badge b-ensayo">ensayo</span>
+          <svg width="40" height="52" viewBox="0 0 40 52" fill="none"><rect x="4" y="2" width="28" height="44" rx="2" fill="#BA7517" opacity="0.5"/><rect x="8" y="10" width="18" height="2" rx="1" fill="white" opacity="0.6"/><rect x="8" y="16" width="14" height="2" rx="1" fill="white" opacity="0.4"/><rect x="8" y="22" width="16" height="2" rx="1" fill="white" opacity="0.4"/><rect x="8" y="28" width="12" height="2" rx="1" fill="white" opacity="0.3"/></svg>
+        </div>
+        <div class="work-body">
+          <h3 class="work-title">El idioma de las ausencias</h3>
+          <p class="work-year">2021</p>
+          <p class="work-desc">Ensayo sobre el duelo en la literatura latinoamericana contemporánea. Publicado por Eterna Cadencia.</p>
+          <a class="work-link" href="#">leer más →</a>
+        </div>
+      </div>
+
+      <div class="work-card" data-type="cuento">
+        <div class="work-img" style="background:var(--teal-50);">
+          <span class="work-type-badge b-cuento">cuento</span>
+          <svg width="40" height="52" viewBox="0 0 40 52" fill="none"><rect x="4" y="2" width="28" height="44" rx="2" fill="#1D9E75" opacity="0.5"/><rect x="8" y="10" width="18" height="2" rx="1" fill="white" opacity="0.6"/><rect x="8" y="16" width="14" height="2" rx="1" fill="white" opacity="0.4"/></svg>
+        </div>
+        <div class="work-body">
+          <h3 class="work-title">Tres veces la misma lluvia</h3>
+          <p class="work-year">2020</p>
+          <p class="work-desc">Cuento publicado en la antología «Nuevas voces del sur». Traducido al portugués y al italiano.</p>
+          <a class="work-link" href="#">leer más →</a>
+        </div>
+      </div>
+
+      <div class="work-card" data-type="novela">
+        <div class="work-img" style="background:var(--purple-50);">
+          <span class="work-type-badge b-novela">novela</span>
+          <svg width="40" height="52" viewBox="0 0 40 52" fill="none"><rect x="4" y="2" width="28" height="44" rx="2" fill="#534AB7" opacity="0.5"/><rect x="8" y="10" width="18" height="2" rx="1" fill="white" opacity="0.6"/></svg>
+        </div>
+        <div class="work-body">
+          <h3 class="work-title">Mapa sin norte</h3>
+          <p class="work-year">2019</p>
+          <p class="work-desc">Primera novela. Una historia de migraciones internas y mapas que mienten. Premio Novela Joven del Fondo Nacional de las Artes.</p>
+          <a class="work-link" href="#">leer más →</a>
+        </div>
+      </div>
+
+      <div class="work-card" data-type="ensayo">
+        <div class="work-img" style="background:var(--amber-50);">
+          <span class="work-type-badge b-ensayo">ensayo</span>
+          <svg width="40" height="52" viewBox="0 0 40 52" fill="none"><rect x="4" y="2" width="28" height="44" rx="2" fill="#BA7517" opacity="0.5"/><rect x="8" y="10" width="18" height="2" rx="1" fill="white" opacity="0.6"/><rect x="8" y="16" width="14" height="2" rx="1" fill="white" opacity="0.4"/></svg>
+        </div>
+        <div class="work-body">
+          <h3 class="work-title">Escribir en el margen</h3>
+          <p class="work-year">2022</p>
+          <p class="work-desc">Sobre la literatura escrita desde los márgenes del canon. Publicado en Revista Otra Parte.</p>
+          <a class="work-link" href="#">leer más →</a>
+        </div>
+      </div>
+
+      <div class="work-card" data-type="cuento">
+        <div class="work-img" style="background:var(--teal-50);">
+          <span class="work-type-badge b-cuento">cuento</span>
+          <svg width="40" height="52" viewBox="0 0 40 52" fill="none"><rect x="4" y="2" width="28" height="44" rx="2" fill="#1D9E75" opacity="0.5"/><rect x="8" y="10" width="18" height="2" rx="1" fill="white" opacity="0.6"/></svg>
+        </div>
+        <div class="work-body">
+          <h3 class="work-title">La última casa</h3>
+          <p class="work-year">2024</p>
+          <p class="work-desc">Cuento incluido en «Las mejores cuentos argentinos 2024» (Páginas de Espuma, Madrid).</p>
+          <a class="work-link" href="#">leer más →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- ══════════════════════════════════════
+     SCREEN: DASHBOARD
+══════════════════════════════════════ -->
+<div id="screen-dashboard" class="screen">
+
+  <nav class="nav">
+    <a class="logo" onclick="goTo('landing')">
+      <span class="logo-dot"></span>
+      tintero
+    </a>
+    <div class="nav-right">
+      <button class="nav-btn-ghost" onclick="goTo('perfil')">ver mi perfil →</button>
+      <div class="avatar-sm" title="Valentina Ferrante">VF</div>
+    </div>
+  </nav>
+
+  <div class="dashboard-layout">
+    <div class="sidebar">
+      <span class="sidebar-section-label">mi espacio</span>
+      <button class="sidebar-item active" onclick="showDashSection('perfil', this)">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex-shrink:0;opacity:0.7">
+          <circle cx="8" cy="5.5" r="2.5" stroke="currentColor" stroke-width="1"/>
+          <path d="M2.5 14c0-2.76 2.46-5 5.5-5s5.5 2.24 5.5 5" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
+        </svg>
+        perfil
+      </button>
+      <button class="sidebar-item" onclick="showDashSection('obras', this)">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex-shrink:0;opacity:0.7">
+          <rect x="3" y="1.5" width="8" height="11" rx="1" stroke="currentColor" stroke-width="1"/>
+          <path d="M5 5h4M5 7.5h3" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
+        </svg>
+        obras
+      </button>
+      <button class="sidebar-item" onclick="showDashSection('disponibilidad', this)">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex-shrink:0;opacity:0.7">
+          <circle cx="8" cy="8" r="5.5" stroke="currentColor" stroke-width="1"/>
+          <path d="M8 5v3l2 1.5" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
+        </svg>
+        disponibilidad
+      </button>
+    </div>
+
+    <div class="dash-main">
+
+      <!-- PERFIL SECTION -->
+      <div id="dsec-perfil">
+        <h1 class="dash-page-title">Mi perfil</h1>
+        <p class="dash-page-sub">Tu información pública como escritora.</p>
+
+        <div class="dash-section">
+          <div class="dash-section-head">
+            <span class="dash-section-title">datos personales</span>
+            <button class="edit-btn">editar</button>
+          </div>
+          <div class="dash-section-body">
+            <div class="field-grid">
+              <div class="field-group">
+                <span class="field-label">nombre completo</span>
+                <span class="field-value">Valentina Ferrante</span>
+              </div>
+              <div class="field-group">
+                <span class="field-label">ubicación</span>
+                <span class="field-value">Buenos Aires, Argentina</span>
+              </div>
+              <div class="field-group">
+                <span class="field-label">especialidad</span>
+                <span class="field-value">Narrativa · Ensayo</span>
+              </div>
+              <div class="field-group">
+                <span class="field-label">email de contacto</span>
+                <span class="field-value">valentina@correo.com</span>
+              </div>
+              <div class="field-group full">
+                <span class="field-label">biografía</span>
+                <span class="field-value">Escritora de ficción y ensayo. Interesada en los bordes del lenguaje, la memoria colectiva y las formas en que las historias construyen identidad.</span>
+              </div>
+              <div class="field-group">
+                <span class="field-label">sitio web</span>
+                <span class="field-value">valentina.com.ar</span>
+              </div>
+              <div class="field-group">
+                <span class="field-label">instagram / red social</span>
+                <span class="field-value">@vferrante</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- OBRAS SECTION -->
+      <div id="dsec-obras" style="display:none">
+        <h1 class="dash-page-title">Mis obras</h1>
+        <p class="dash-page-sub">Libros, ensayos y publicaciones que querés mostrar.</p>
+
+        <div class="dash-section">
+          <div class="obras-header">
+            <span class="dash-section-title">publicaciones</span>
+            <button class="add-btn" onclick="openModal()">+ agregar obra</button>
+          </div>
+
+          <div class="obra-row">
+            <div class="obra-thumb" style="background:var(--purple-50);">
+              <svg width="18" height="24" viewBox="0 0 18 24" fill="none"><rect x="1" y="1" width="14" height="20" rx="1" fill="#534AB7" opacity="0.4"/></svg>
+            </div>
+            <div>
+              <div class="obra-title-dash">Las horas que no recordamos</div>
+              <div class="obra-meta-dash"><span class="type-pill p-novela">novela</span> 2023</div>
+            </div>
+            <div class="obra-actions">
+              <button class="icon-btn">✎</button>
+              <button class="icon-btn del">✕</button>
+            </div>
+          </div>
+
+          <div class="obra-row">
+            <div class="obra-thumb" style="background:var(--amber-50);">
+              <svg width="18" height="24" viewBox="0 0 18 24" fill="none"><rect x="1" y="1" width="14" height="20" rx="1" fill="#BA7517" opacity="0.4"/></svg>
+            </div>
+            <div>
+              <div class="obra-title-dash">El idioma de las ausencias</div>
+              <div class="obra-meta-dash"><span class="type-pill p-ensayo">ensayo</span> 2021</div>
+            </div>
+            <div class="obra-actions">
+              <button class="icon-btn">✎</button>
+              <button class="icon-btn del">✕</button>
+            </div>
+          </div>
+
+          <div class="obra-row">
+            <div class="obra-thumb" style="background:var(--teal-50);">
+              <svg width="18" height="24" viewBox="0 0 18 24" fill="none"><rect x="1" y="1" width="14" height="20" rx="1" fill="#1D9E75" opacity="0.4"/></svg>
+            </div>
+            <div>
+              <div class="obra-title-dash">Tres veces la misma lluvia</div>
+              <div class="obra-meta-dash"><span class="type-pill p-cuento">cuento</span> 2020</div>
+            </div>
+            <div class="obra-actions">
+              <button class="icon-btn">✎</button>
+              <button class="icon-btn del">✕</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DISPONIBILIDAD SECTION -->
+      <div id="dsec-disponibilidad" style="display:none">
+        <h1 class="dash-page-title">Disponibilidad</h1>
+        <p class="dash-page-sub">Indicá si estás disponible para encargos, colaboraciones o contacto.</p>
+
+        <div class="dash-section">
+          <div class="toggle-row">
+            <div>
+              <div class="toggle-label">Acepto encargos</div>
+              <div class="toggle-sub">Aparece un badge en tu perfil público</div>
+            </div>
+            <button class="toggle-switch on" id="tog1" onclick="this.classList.toggle('on');this.classList.toggle('off')">
+              <div class="toggle-knob"></div>
+            </button>
+          </div>
+          <div class="divider"></div>
+          <div class="toggle-row">
+            <div>
+              <div class="toggle-label">Disponible para colaboraciones</div>
+              <div class="toggle-sub">Otros escritores pueden contactarte para proyectos conjuntos</div>
+            </div>
+            <button class="toggle-switch off" id="tog2" onclick="this.classList.toggle('on');this.classList.toggle('off')">
+              <div class="toggle-knob"></div>
+            </button>
+          </div>
+          <div class="divider"></div>
+          <div class="toggle-row">
+            <div>
+              <div class="toggle-label">Perfil visible al público</div>
+              <div class="toggle-sub">Si está desactivado, tu perfil solo lo ves vos</div>
+            </div>
+            <button class="toggle-switch on" id="tog3" onclick="this.classList.toggle('on');this.classList.toggle('off')">
+              <div class="toggle-knob"></div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-head">
+      <span class="modal-title">nueva obra</span>
+      <button class="close-btn" onclick="closeModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">título</label>
+        <input class="form-input" type="text" placeholder="Nombre de la obra">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">tipo</label>
+          <select class="form-select">
+            <option>novela</option>
+            <option>ensayo</option>
+            <option>cuento</option>
+            <option>poesía</option>
+            <option>artículo</option>
+            <option>otro</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">año</label>
+          <input class="form-input" type="text" placeholder="2024">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">descripción</label>
+        <textarea class="form-textarea" placeholder="Contá brevemente de qué trata..."></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">link</label>
+        <input class="form-input" type="text" placeholder="https://...">
+      </div>
+      <div class="form-group">
+        <label class="form-label">imagen de portada</label>
+        <div class="upload-area">subir imagen →</div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal()">cancelar</button>
+      <button class="btn-primary">guardar obra</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  function goTo(screen) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('screen-' + screen).classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
+  function filterObras(type, btn) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.work-card').forEach(card => {
+      card.style.display = (type === 'todos' || card.dataset.type === type) ? '' : 'none';
+    });
+  }
+
+  function showDashSection(name, btn) {
+    ['perfil','obras','disponibilidad'].forEach(s => {
+      document.getElementById('dsec-' + s).style.display = s === name ? '' : 'none';
+    });
+    document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  function openModal() {
+    document.getElementById('modal').classList.add('open');
+  }
+
+  function closeModal() {
+    document.getElementById('modal').classList.remove('open');
+  }
+
+  document.getElementById('modal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+</script>
+
+</body>
+</html>
